@@ -6,8 +6,8 @@
   <title>Jeu de Piste</title>
   <style>
     body {
-      background-color: transparent; /* Fond transparent */
-      color: black; /* Texte en noir */
+      background-color: transparent;
+      color: black;
       font-family: Arial, sans-serif;
       display: flex;
       justify-content: center;
@@ -16,7 +16,7 @@
       margin: 0;
     }
     .conteneur {
-      width: 300px; /* Largeur du bloc */
+      width: 300px;
       padding: 20px;
       background-color: rgba(255, 255, 255, 0.8);
       border-radius: 10px;
@@ -47,30 +47,103 @@
       margin-top: 10px;
       font-weight: bold;
     }
+    .suivi {
+      margin-top: 20px;
+      text-align: left;
+    }
+    .suivi span {
+      display: inline-block;
+      width: 20px;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
   <div class="conteneur">
-    <h2>Jeu de Piste</h2>
-    <input type="text" id="motMystere" placeholder="Entrez le mot mystère" />
-    <button onclick="verifierMot()">Vérifier</button>
+    <h2 id="titreEnigme">Enigme 1</h2>
+    <p id="question">Question de l'énigme 1</p>
+    <input type="text" id="reponse" placeholder="Entrez votre réponse" />
+    <button onclick="verifierReponse()">Valider</button>
     <p id="message"></p>
+    <div class="suivi">
+      <!-- Affichage du suivi des énigmes -->
+      <p>Suivi des énigmes :</p>
+      <div id="suiviEnigmes"></div>
+    </div>
   </div>
 
   <script>
-    const motCorrect = "arcgis"; // Remplace par ton mot mystère
+    // Tableau des énigmes
+    const enigmes = [
+      { question: "Enigme 1 :La __ __ __ __ __ __ __ __ __ __ __ __ 1 du fort durera 11 années, de 1811 a 1821", reponse: "construction", lettre: "A" },
+      { question: "Enigme 2 : Baptisée «Petit __ __ __ __ __ __ __ __ __ » la colline du Caire fortifiée veille sur le 1er port militaire de Méditerranée ?", reponse: "gibraltar", lettre: "B" },
+      { question: "Enigme 3 : Calcule la __ __ __ __ __ du glacis, elle empêche l’assaillant d’effectuer des tirs directs sur le fort. }, reponse: "	pente", lettre: "C" },
+      { question: "Enigme 4 : Ces vieux __ __ __ __ monumentaux ont l’âge du fort, ils te confient les tactiques de résistance de la forêt méditerranéenne ?", reponse: "pins", lettre: "D" },
+      { question: "Enigme 5 : Quelle couleur obtient-on en mélangeant le rouge et le bleu ?", reponse: "violet", lettre: "E" },
+      { question: "Enigme 6 : Quel est le plus grand océan du monde ?", reponse: "pacifique", lettre: "F" },
+      { question: "Enigme 7 : Quel animal est le roi de la jungle ?", reponse: "lion", lettre: "G" },
+      { question: "Enigme 8 : Combien de jours y a-t-il dans une semaine ?", reponse: "7", lettre: "H" },
+      { question: "Enigme 9 : Quel est le plus petit nombre premier ?", reponse: "2", lettre: "I" },
+      { question: "Enigme 10 : Quelle est la capitale de la France ?", reponse: "paris", lettre: "J" }
+    ];
 
-    function verifierMot() {
-      let motEntre = document.getElementById("motMystere").value.trim().toLowerCase();
-      let message = document.getElementById("message");
-      if (motEntre === motCorrect) {
-        message.innerHTML = "🎉 Bravo ! Vous avez trouvé le bon mot mystère !";
-        message.style.color = "green";
+    let indexEnigme = 0;
+    let resultats = new Array(enigmes.length).fill(false); // Suivi des énigmes résolues
+    let lettresTrouvees = [];
+
+    // Fonction pour afficher l'énigme courante
+    function afficherEnigme() {
+      if (indexEnigme < enigmes.length) {
+        document.getElementById("titreEnigme").textContent = "Enigme " + (indexEnigme + 1);
+        document.getElementById("question").textContent = enigmes[indexEnigme].question;
+        document.getElementById("reponse").value = "";
+        document.getElementById("message").textContent = "";
       } else {
-        message.innerHTML = "❌ Oups, ce n'est pas le bon mot. Essayez encore !";
-        message.style.color = "red";
+        // Fin des énigmes, composer le mot final
+        let motFinal = lettresTrouvees.join("");
+        document.getElementById("titreEnigme").textContent = "Félicitations !";
+        document.getElementById("question").textContent = "Votre mot final est : " + motFinal;
+        document.getElementById("reponse").style.display = "none";
+        document.getElementById("message").style.display = "none";
       }
+      mettreAJourSuivi();
     }
+
+    // Fonction pour vérifier la réponse de l'énigme courante
+    function verifierReponse() {
+      let reponseUtilisateur = document.getElementById("reponse").value.trim().toLowerCase();
+      let messageEl = document.getElementById("message");
+
+      if (reponseUtilisateur === enigmes[indexEnigme].reponse) {
+        messageEl.textContent = "Bonne réponse !";
+        messageEl.style.color = "green";
+        resultats[indexEnigme] = true;
+        lettresTrouvees.push(enigmes[indexEnigme].lettre);
+        indexEnigme++;
+        // Passage à l'énigme suivante après un court délai
+        setTimeout(afficherEnigme, 1000);
+      } else {
+        messageEl.textContent = "Mauvaise réponse, essayez encore !";
+        messageEl.style.color = "red";
+      }
+      mettreAJourSuivi();
+    }
+
+    // Fonction pour mettre à jour l'affichage du suivi des énigmes
+    function mettreAJourSuivi() {
+      let suiviDiv = document.getElementById("suiviEnigmes");
+      suiviDiv.innerHTML = "";
+      resultats.forEach((valide, i) => {
+        let span = document.createElement("span");
+        span.textContent = valide ? enigmes[i].lettre : "_";
+        span.style.marginRight = "5px";
+        suiviDiv.appendChild(span);
+      });
+    }
+
+    // Afficher la première énigme dès le chargement
+    afficherEnigme();
   </script>
 </body>
 </html>
+
