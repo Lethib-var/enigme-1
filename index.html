@@ -1,122 +1,65 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jeu de Piste</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f4f4f4;
-        }
-        .popup {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-            max-width: 300px;
-            text-align: center;
-        }
-        input {
-            width: 80%;
-            padding: 8px;
-            margin: 10px 0;
-        }
-        button {
-            background-color: green;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: darkgreen;
-        }
-        #motMystere {
-            font-size: 20px;
-            font-weight: bold;
-            margin-top: 15px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Énigme 1</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    input {
+      margin: 10px;
+      padding: 10px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    #message {
+      margin-top: 15px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
 
-<div class="popup">
-    <h2>Résous l'énigme !</h2>
-    <input type="text" id="reponse" placeholder="Ta réponse ici">
-    <button onclick="verifierReponse()">Valider</button>
-    <p id="feedback"></p>
-    <p id="motMystere"></p>
-</div>
+  <h2>Énigme 1</h2>
+  <p>Quel est le mot-clé correspondant ?</p>
+  
+  <input type="text" id="reponse" placeholder="Entrez votre réponse">
+  <button onclick="verifierReponse()">Valider</button>
 
-<script>
-    const enigmes = {
-        1: { mot: "soleil", lettre: 1 },
-        2: { mot: "montagne", lettre: 6 },
-        3: { mot: "rivière", lettre: 7 },
-        4: { mot: "forêt", lettre: 1 },
-        5: { mot: "étoile", lettre: 5 },
-        6: { mot: "château", lettre: 8 },
-        7: { mot: "nuage", lettre: 2 },
-        8: { mot: "chemin", lettre: 9 },
-        9: { mot: "pierre", lettre: 4 },
-        10: { mot: "lumière", lettre: 10 }
-    };
+  <p id="message"></p>
+  <p id="motMystere" style="font-size: 24px; font-weight: bold;"></p>
 
-    let motMystere = "__________".split("");
-
-    function chargerProgres() {
-        let sauvegarde = JSON.parse(localStorage.getItem("progres")) || {};
-        for (let id in sauvegarde) {
-            let position = enigmes[id].lettre - 1;
-            motMystere[position] = sauvegarde[id];
-        }
-        afficherMotMystere();
-    }
-
-    function afficherMotMystere() {
-        document.getElementById("motMystere").innerText = motMystere.join(" ");
-    }
-
+  <script>
     function verifierReponse() {
-        let reponse = document.getElementById("reponse").value.toLowerCase().trim();
-        let feedback = document.getElementById("feedback");
+      let reponseUtilisateur = document.getElementById("reponse").value.trim().toLowerCase();
+      let motCorrect = "construction";
+      let motMystereBase = "_ _ _ _ _ _ _ _ _ _"; // 10 lettres pour "conscience"
+      
+      if (reponseUtilisateur === motCorrect) {
+        document.getElementById("message").textContent = "Bonne réponse !";
+        document.getElementById("message").style.color = "green";
 
-        for (let id in enigmes) {
-            if (enigmes[id].mot === reponse) {
-                let sauvegarde = JSON.parse(localStorage.getItem("progres")) || {};
-
-                if (!(id in sauvegarde)) {
-                    let position = enigmes[id].lettre - 1;
-                    motMystere[position] = reponse[0].toUpperCase();
-                    sauvegarde[id] = reponse[0].toUpperCase();
-                    localStorage.setItem("progres", JSON.stringify(sauvegarde));
-
-                    feedback.innerText = "Bonne réponse ! 🎉";
-                    setTimeout(() => window.close(), 1000); // Ferme la pop-up
-                } else {
-                    feedback.innerText = "Déjà répondu ! ✅";
-                }
-
-                afficherMotMystere();
-                return;
-            }
-        }
-
-        feedback.innerText = "Mauvaise réponse ❌";
+        let motMystereModifie = motMystereBase.split(" ");
+        motMystereModifie[0] = "C";  // La première lettre révélée
+        document.getElementById("motMystere").textContent = motMystereModifie.join(" ");
+      } else {
+        document.getElementById("message").textContent = "Mauvaise réponse, essayez encore.";
+        document.getElementById("message").style.color = "red";
+      }
     }
-
-    window.onload = chargerProgres;
-</script>
+  </script>
 
 </body>
 </html>
-
-
