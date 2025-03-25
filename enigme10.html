@@ -51,10 +51,10 @@
   <script>
     function verifierReponse() {
       let reponseUtilisateur = document.getElementById("reponse").value.trim().toLowerCase();
-      let motCorrect = "sentinelles";
+      let motCorrect = "cepet";
 
       if (reponseUtilisateur === motCorrect) {
-        document.getElementById("message").textContent = "Bonne réponse !";
+        document.getElementById("message").textContent = "Félicitation, tu as trouvé toutes les réponses aux énigmes !";
         document.getElementById("message").style.color = "green";
 
         // Mettre à jour le mot mystère avec la version correcte pour cette énigme
