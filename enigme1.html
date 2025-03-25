@@ -28,6 +28,11 @@
       font-size: 18px;
       font-weight: bold;
     }
+    #motMystere {
+      font-size: 24px;
+      font-weight: bold;
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
@@ -39,21 +44,18 @@
   <button onclick="verifierReponse()">Valider</button>
 
   <p id="message"></p>
-  <p id="motMystere" style="font-size: 24px; font-weight: bold;"></p>
+
+  <p>Mot mystère complété :</p>
+  <p id="motMystere">C _ _ _ _ _ _ _ _ _</p> <!-- À mettre à jour manuellement selon l'avancement -->
 
   <script>
     function verifierReponse() {
       let reponseUtilisateur = document.getElementById("reponse").value.trim().toLowerCase();
       let motCorrect = "construction";
-      let motMystereBase = "_ _ _ _ _ _ _ _ _ _"; // 10 lettres pour "conscience"
-      
+
       if (reponseUtilisateur === motCorrect) {
         document.getElementById("message").textContent = "Bonne réponse !";
         document.getElementById("message").style.color = "green";
-
-        let motMystereModifie = motMystereBase.split(" ");
-        motMystereModifie[0] = "C";  // La première lettre révélée
-        document.getElementById("motMystere").textContent = motMystereModifie.join(" ");
       } else {
         document.getElementById("message").textContent = "Mauvaise réponse, essayez encore.";
         document.getElementById("message").style.color = "red";
