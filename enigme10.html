@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Énigme 10</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    input {
+      margin: 10px;
+      padding: 10px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    #message {
+      margin-top: 15px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    #motMystere {
+      font-size: 24px;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Énigme 10</h2>
+  <p>Quel est le mot-clé correspondant ?</p>
+  
+  <input type="text" id="reponse" placeholder="Entrez votre réponse">
+  <button onclick="verifierReponse()">Valider</button>
+
+  <p id="message"></p>
+
+  <p>Mot mystère complété :</p>
+  <p id="motMystere">C O N S C I E N C _</p> <!-- Ce texte sera modifié automatiquement -->
+
+  <script>
+    function verifierReponse() {
+      let reponseUtilisateur = document.getElementById("reponse").value.trim().toLowerCase();
+      let motCorrect = "sentinelles";
+
+      if (reponseUtilisateur === motCorrect) {
+        document.getElementById("message").textContent = "Bonne réponse !";
+        document.getElementById("message").style.color = "green";
+
+        // Mettre à jour le mot mystère avec la version correcte pour cette énigme
+        document.getElementById("motMystere").textContent = "C O N S C I E N C E";
+        
+      } else {
+        document.getElementById("message").textContent = "Mauvaise réponse, essayez encore.";
+        document.getElementById("message").style.color = "red";
+      }
+    }
+  </script>
+
+</body>
+</html>
