@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
@@ -58,7 +57,7 @@
   </div>
 
   <script>
-    const motCorrect = "construction"; // Remplace par ton mot mystère
+    const motCorrect = "arcgis"; // Remplace par ton mot mystère
 
     function verifierMot() {
       let motEntre = document.getElementById("motMystere").value.trim().toLowerCase();
@@ -73,4 +72,3 @@
     }
   </script>
 </body>
-</html>
