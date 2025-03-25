@@ -37,7 +37,7 @@
 </head>
 <body>
 
-  <h2>Énigme 1</h2>
+  <h2>Énigme 2</h2>
   <p>Quel est le mot-clé correspondant ?</p>
   
   <input type="text" id="reponse" placeholder="Entrez votre réponse">
@@ -51,7 +51,7 @@
   <script>
     function verifierReponse() {
       let reponseUtilisateur = document.getElementById("reponse").value.trim().toLowerCase();
-      let motCorrect = "construction";
+      let motCorrect = "gibraltar";
 
       if (reponseUtilisateur === motCorrect) {
         document.getElementById("message").textContent = "Bonne réponse !";
