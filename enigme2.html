@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Énigme 2</title>
+  <title>Énigme 1</title>
   <style>
     body {
       text-align: center;
@@ -46,16 +46,20 @@
   <p id="message"></p>
 
   <p>Mot mystère complété :</p>
-  <p id="motMystere">C _ _ _ _ I _ _ _ _</p> <!-- À mettre à jour manuellement selon l'avancement -->
+  <p id="motMystere">C _ _ _ _ _ _ _ _ _</p> <!-- Ce texte sera modifié automatiquement -->
 
   <script>
     function verifierReponse() {
       let reponseUtilisateur = document.getElementById("reponse").value.trim().toLowerCase();
-      let motCorrect = "gibraltar";
+      let motCorrect = "construction";
 
       if (reponseUtilisateur === motCorrect) {
         document.getElementById("message").textContent = "Bonne réponse !";
         document.getElementById("message").style.color = "green";
+
+        // Mettre à jour le mot mystère avec la version correcte pour cette énigme
+        document.getElementById("motMystere").textContent = "C _ _ _ _ I _ _ _ _";
+        
       } else {
         document.getElementById("message").textContent = "Mauvaise réponse, essayez encore.";
         document.getElementById("message").style.color = "red";
