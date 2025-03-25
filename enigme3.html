@@ -44,7 +44,7 @@
   <script>
     function verifierReponse() {
       let reponseUtilisateur = document.getElementById("reponse").value.trim().toLowerCase();
-      let motCorrect = "construction";
+      let motCorrect = "pente";
       let motMystereBase = "_ _ _ _ _ _ _ _ _ _"; // 10 lettres pour "conscience"
       
       if (reponseUtilisateur === motCorrect) {
@@ -52,7 +52,7 @@
         document.getElementById("message").style.color = "green";
 
         let motMystereModifie = motMystereBase.split(" ");
-        motMystereModifie[0] = "C";  // La première lettre révélée
+        motMystereModifie[0] = "E";  // La première lettre révélée
         document.getElementById("motMystere").textContent = motMystereModifie.join(" ");
       } else {
         document.getElementById("message").textContent = "Mauvaise réponse, essayez encore.";
