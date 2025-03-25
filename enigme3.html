@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Énigme 1</title>
+  <title>Énigme 3</title>
   <style>
     body {
       text-align: center;
@@ -37,7 +37,7 @@
 </head>
 <body>
 
-  <h2>Énigme 1</h2>
+  <h2>Énigme 3</h2>
   <p>Quel est le mot-clé correspondant ?</p>
   
   <input type="text" id="reponse" placeholder="Entrez votre réponse">
@@ -51,7 +51,7 @@
   <script>
     function verifierReponse() {
       let reponseUtilisateur = document.getElementById("reponse").value.trim().toLowerCase();
-      let motCorrect = "construction";
+      let motCorrect = "pente";
 
       if (reponseUtilisateur === motCorrect) {
         document.getElementById("message").textContent = "Bonne réponse !";
