@@ -56,10 +56,10 @@
       if (reponseUtilisateur === motCorrect) {
         document.getElementById("message").textContent = "Félicitation, tu as trouvé toutes les réponses aux énigmes !";
         document.getElementById("message").style.color = "green";
-        document.getElementById('fete').src = "https://media.giphy.com/media/3o6fJ2K7Tq4nH8L0Sk/giphy.gif"; 
 
         // Mettre à jour le mot mystère avec la version correcte pour cette énigme
         document.getElementById("motMystere").textContent = "C O N S C I E N C E";
+        document.getElementById("message").textContent = "Le mot mystère est conscience, une belle qualité que l'histoire et la forêt t'ont transmis";
         
       } else {
         document.getElementById("message").textContent = "Mauvaise réponse, essayez encore.";
