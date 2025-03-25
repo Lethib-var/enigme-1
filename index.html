@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enigmes - Mot Mystère</title>
+    <title>Jeu de Piste</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            text-align: center;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -14,86 +15,108 @@
             background-color: #f4f4f4;
         }
         .popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
             background: white;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+            max-width: 300px;
             text-align: center;
         }
-        .input-container {
+        input {
+            width: 80%;
+            padding: 8px;
             margin: 10px 0;
         }
-        .validate-btn {
+        button {
             background-color: green;
             color: white;
-            padding: 10px 15px;
             border: none;
+            padding: 10px;
             border-radius: 5px;
             cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: darkgreen;
+        }
+        #motMystere {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 15px;
         }
     </style>
 </head>
 <body>
-    <button onclick="openPopup()">Répondre à une énigme</button>
-    
-    <div class="popup" id="popup">
-        <h2>Répondez à l'énigme</h2>
-        <div class="input-container">
-            <input type="text" id="answer" placeholder="Votre réponse">
-        </div>
-        <button class="validate-btn" onclick="validateAnswer()">Valider</button>
-        <p id="result"></p>
-    </div>
-    
-    <script>
-        const enigmes = {
-            1: { letterIndex: 1, answer: "soleil" },
-            2: { letterIndex: 6, answer: "lune" },
-            3: { letterIndex: 7, answer: "terre" },
-            4: { letterIndex: 1, answer: "mer" },
-            5: { letterIndex: 5, answer: "vent" },
-            6: { letterIndex: 8, answer: "feu" },
-            7: { letterIndex: 2, answer: "eau" },
-            8: { letterIndex: 9, answer: "montagne" },
-            9: { letterIndex: 4, answer: "pluie" },
-            10: { letterIndex: 10, answer: "neige" }
-        };
-        
-        let motMystere = new Array(10).fill("_");
-        let reponses = JSON.parse(localStorage.getItem("reponses")) || {};
-        
-        function openPopup() {
-            document.getElementById("popup").style.display = "block";
+
+<div class="popup">
+    <h2>Résous l'énigme !</h2>
+    <input type="text" id="reponse" placeholder="Ta réponse ici">
+    <button onclick="verifierReponse()">Valider</button>
+    <p id="feedback"></p>
+    <p id="motMystere"></p>
+</div>
+
+<script>
+    const enigmes = {
+        1: { mot: "soleil", lettre: 1 },
+        2: { mot: "montagne", lettre: 6 },
+        3: { mot: "rivière", lettre: 7 },
+        4: { mot: "forêt", lettre: 1 },
+        5: { mot: "étoile", lettre: 5 },
+        6: { mot: "château", lettre: 8 },
+        7: { mot: "nuage", lettre: 2 },
+        8: { mot: "chemin", lettre: 9 },
+        9: { mot: "pierre", lettre: 4 },
+        10: { mot: "lumière", lettre: 10 }
+    };
+
+    let motMystere = "__________".split("");
+
+    function chargerProgres() {
+        let sauvegarde = JSON.parse(localStorage.getItem("progres")) || {};
+        for (let id in sauvegarde) {
+            let position = enigmes[id].lettre - 1;
+            motMystere[position] = sauvegarde[id];
         }
-        
-        function closePopup() {
-            document.getElementById("popup").style.display = "none";
-        }
-        
-        function validateAnswer() {
-            const userAnswer = document.getElementById("answer").value.toLowerCase().trim();
-            let resultMessage = "Réponse incorrecte.";
-            
-            for (let key in enigmes) {
-                if (enigmes[key].answer === userAnswer && !reponses[key]) {
-                    const index = enigmes[key].letterIndex - 1;
-                    motMystere[index] = userAnswer.charAt(0).toUpperCase();
-                    reponses[key] = userAnswer;
-                    localStorage.setItem("reponses", JSON.stringify(reponses));
-                    localStorage.setItem("motMystere", motMystere.join(""));
-                    resultMessage = "Réponse correcte !";
-                    setTimeout(closePopup, 1000);
-                    break;
+        afficherMotMystere();
+    }
+
+    function afficherMotMystere() {
+        document.getElementById("motMystere").innerText = motMystere.join(" ");
+    }
+
+    function verifierReponse() {
+        let reponse = document.getElementById("reponse").value.toLowerCase().trim();
+        let feedback = document.getElementById("feedback");
+
+        for (let id in enigmes) {
+            if (enigmes[id].mot === reponse) {
+                let sauvegarde = JSON.parse(localStorage.getItem("progres")) || {};
+
+                if (!(id in sauvegarde)) {
+                    let position = enigmes[id].lettre - 1;
+                    motMystere[position] = reponse[0].toUpperCase();
+                    sauvegarde[id] = reponse[0].toUpperCase();
+                    localStorage.setItem("progres", JSON.stringify(sauvegarde));
+
+                    feedback.innerText = "Bonne réponse ! 🎉";
+                    setTimeout(() => window.close(), 1000); // Ferme la pop-up
+                } else {
+                    feedback.innerText = "Déjà répondu ! ✅";
                 }
+
+                afficherMotMystere();
+                return;
             }
-            document.getElementById("result").innerText = resultMessage;
         }
-    </script>
+
+        feedback.innerText = "Mauvaise réponse ❌";
+    }
+
+    window.onload = chargerProgres;
+</script>
+
 </body>
 </html>
+
 
